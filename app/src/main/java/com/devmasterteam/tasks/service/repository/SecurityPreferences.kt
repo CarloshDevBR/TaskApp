@@ -3,9 +3,6 @@ package com.devmasterteam.tasks.service.repository
 import android.content.Context
 import android.content.SharedPreferences
 
-/**
- * Acesso a dados rápidos do projeto - SharedPreferences
- */
 class SecurityPreferences(context: Context) {
 
     private val preferences: SharedPreferences =

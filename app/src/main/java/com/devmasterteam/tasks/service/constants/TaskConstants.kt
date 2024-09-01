@@ -1,18 +1,12 @@
 package com.devmasterteam.tasks.service.constants
 
-/**
- * Constantes usadas na aplicação
- */
 class TaskConstants private constructor() {
-
-    // SharedPreferences
     object SHARED {
         const val TOKEN_KEY = "tokenkey"
         const val PERSON_KEY = "personkey"
         const val PERSON_NAME = "personname"
     }
 
-    // Requisições API
     object HEADER {
         const val TOKEN_KEY = "token"
         const val PERSON_KEY = "personkey"
