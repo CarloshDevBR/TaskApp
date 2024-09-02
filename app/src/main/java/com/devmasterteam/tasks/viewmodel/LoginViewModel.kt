@@ -7,13 +7,16 @@ import androidx.lifecycle.MutableLiveData
 import com.devmasterteam.tasks.service.constants.TaskConstants
 import com.devmasterteam.tasks.service.listener.APIListener
 import com.devmasterteam.tasks.service.model.PersonModel
+import com.devmasterteam.tasks.service.model.PriorityModel
 import com.devmasterteam.tasks.service.model.ValidationModel
 import com.devmasterteam.tasks.service.repository.PersonRepository
+import com.devmasterteam.tasks.service.repository.PriorityRepository
 import com.devmasterteam.tasks.service.repository.SecurityPreferences
 import com.devmasterteam.tasks.service.repository.remote.RetrofitClient
 
 class LoginViewModel(application: Application) : AndroidViewModel(application) {
     private val personRepository = PersonRepository(application)
+    private val priorityRepository = PriorityRepository(application)
     private val securityPreferences = SecurityPreferences(application)
 
     private val _login = MutableLiveData<ValidationModel>()
@@ -42,10 +45,21 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         val token = securityPreferences.get(TaskConstants.SHARED.TOKEN_KEY)
         val personKey = securityPreferences.get(TaskConstants.SHARED.PERSON_KEY)
 
-        if (token != "" && personKey != "") {
-            addHeaders(token, personKey)
+        val logged = (token != "" && personKey != "")
+        _loggedUser.value = logged
 
-            _loggedUser.value = true
+        addHeaders(token, personKey)
+
+        if (!logged) {
+            priorityRepository.list(object : APIListener<List<PriorityModel>> {
+                override fun onSuccess(response: List<PriorityModel>) {
+                    priorityRepository.save(response)
+                }
+
+                override fun onFailure(message: String) {
+                    val s = ""
+                }
+            })
         }
     }
 
