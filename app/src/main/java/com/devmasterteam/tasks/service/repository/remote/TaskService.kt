@@ -2,10 +2,10 @@ package com.devmasterteam.tasks.service.repository.remote
 
 import com.devmasterteam.tasks.service.model.TaskModel
 import retrofit2.Call
-import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.HTTP
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
@@ -14,10 +14,10 @@ interface TaskService {
     @GET("Task")
     fun list(): Call<List<TaskModel>>
 
-    @GET("Next7Days")
+    @GET("Task/Next7Days")
     fun listNext(): Call<List<TaskModel>>
 
-    @GET("Overdue")
+    @GET("Task/Overdue")
     fun listOverdue(): Call<List<TaskModel>>
 
     @GET("Task/{id}")
@@ -51,7 +51,7 @@ interface TaskService {
     @FormUrlEncoded
     fun undo(@Field("Id") id: Int): Call<Boolean>
 
-    @DELETE("Task")
+    @HTTP(method = "DELETE", path = "Task", hasBody = true)
     @FormUrlEncoded
     fun remove(@Field("Id") id: Int): Call<Boolean>
 }

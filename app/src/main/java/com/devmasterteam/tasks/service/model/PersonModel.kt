@@ -2,13 +2,13 @@ package com.devmasterteam.tasks.service.model
 
 import com.google.gson.annotations.SerializedName
 
-class PersonModel {
+data class PersonModel(
     @SerializedName("token")
-    lateinit var token: String
+    var token: String,
 
     @SerializedName("personKey")
-    lateinit var personKey: String
+    var personKey: String,
 
     @SerializedName("name")
-    lateinit var name: String
-}
+    var name: String
+)

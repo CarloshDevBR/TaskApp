@@ -26,5 +26,4 @@ class TaskConstants private constructor() {
         const val NEXT = 1
         const val EXPIRED = 2
     }
-
 }

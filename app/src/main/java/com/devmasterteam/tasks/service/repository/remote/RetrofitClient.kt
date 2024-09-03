@@ -32,7 +32,10 @@ class RetrofitClient private constructor() {
 
             if (!::INSTANCE.isInitialized) {
                 synchronized(RetrofitClient::class) {
-                    INSTANCE = Retrofit.Builder().baseUrl(BASE_URL).client(http.build())
+                    INSTANCE = Retrofit
+                        .Builder()
+                        .baseUrl(BASE_URL)
+                        .client(http.build())
                         .addConverterFactory(GsonConverterFactory.create()).build()
                 }
             }

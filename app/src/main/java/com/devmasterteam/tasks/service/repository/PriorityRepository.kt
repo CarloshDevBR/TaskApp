@@ -1,35 +1,44 @@
 package com.devmasterteam.tasks.service.repository
 
 import android.content.Context
-import com.devmasterteam.tasks.R
 import com.devmasterteam.tasks.service.listener.APIListener
 import com.devmasterteam.tasks.service.model.PriorityModel
 import com.devmasterteam.tasks.service.repository.local.TaskDatabase
 import com.devmasterteam.tasks.service.repository.remote.PriorityService
 import com.devmasterteam.tasks.service.repository.remote.RetrofitClient
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
-class PriorityRepository(val context: Context) : BaseRepository() {
+class PriorityRepository(context: Context) : BaseRepository(context) {
     private val remote = RetrofitClient.createService(PriorityService::class.java)
     private val database = TaskDatabase.getDatabase(context).priorityDAO()
+
+    companion object {
+        private val cache = mutableMapOf<Int, String>()
+
+        fun getDescription(id: Int) = cache[id] ?: ""
+
+        fun setDescription(id: Int, description: String) {
+            cache[id] = description
+        }
+    }
+
+    fun getDescription(id: Int): String {
+        val cached = PriorityRepository.getDescription(id)
+
+        if(cached == "") {
+            val description = database.getDescription(id)
+
+            PriorityRepository.setDescription(id, description)
+
+            return description
+        }
+
+        return cached
+    }
 
     fun list(listener: APIListener<List<PriorityModel>>) {
         val call = remote.list()
 
-        call.enqueue(object : Callback<List<PriorityModel>> {
-            override fun onResponse(
-                call: Call<List<PriorityModel>>,
-                response: Response<List<PriorityModel>>
-            ) {
-                handleResponse(response, listener)
-            }
-
-            override fun onFailure(call: Call<List<PriorityModel>>, t: Throwable) {
-                listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
-            }
-        })
+        executeCall(call, listener)
     }
 
     fun listPriorities(): List<PriorityModel> = database.list()
