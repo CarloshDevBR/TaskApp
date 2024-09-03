@@ -22,6 +22,9 @@ class TaskListViewModel(application: Application) : AndroidViewModel(application
     private val _list = MutableLiveData<ValidationModel>()
     val list: LiveData<ValidationModel> = _list
 
+    private val _status = MutableLiveData<ValidationModel>()
+    val status: LiveData<ValidationModel> = _status
+
     private val _delete = MutableLiveData<ValidationModel>()
     val delete: LiveData<ValidationModel> = _delete
 
@@ -37,6 +40,30 @@ class TaskListViewModel(application: Application) : AndroidViewModel(application
 
             override fun onFailure(message: String) {
                 _list.value = ValidationModel(message)
+            }
+        })
+    }
+
+    fun complete(id: Int) {
+        remote.complete(id, object : APIListener<Boolean> {
+            override fun onSuccess(response: Boolean) {
+                list()
+            }
+
+            override fun onFailure(message: String) {
+                _status.value = ValidationModel(message)
+            }
+        })
+    }
+
+    fun undo(id: Int) {
+        remote.undo(id, object : APIListener<Boolean> {
+            override fun onSuccess(response: Boolean) {
+                list()
+            }
+
+            override fun onFailure(message: String) {
+                _status.value = ValidationModel(message)
             }
         })
     }
