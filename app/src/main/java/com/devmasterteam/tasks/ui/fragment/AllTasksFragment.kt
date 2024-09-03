@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.devmasterteam.tasks.databinding.FragmentAllTasksBinding
+import com.devmasterteam.tasks.service.constants.TaskConstants
 import com.devmasterteam.tasks.service.listener.TaskListener
 import com.devmasterteam.tasks.ui.adapter.TaskAdapter
 import com.devmasterteam.tasks.ui.view.TaskFormActivity
@@ -31,7 +32,15 @@ class AllTasksFragment : Fragment() {
 
         val listener = object : TaskListener {
             override fun onListClick(id: Int) {
-                startActivity(Intent(context, TaskFormActivity::class.java))
+                val intent = Intent(context, TaskFormActivity::class.java)
+
+                val bundle = Bundle()
+
+                bundle.putInt(TaskConstants.BUNDLE.TASKID, id)
+
+                intent.putExtras(bundle)
+
+                startActivity(intent)
             }
 
             override fun onDeleteClick(id: Int) {

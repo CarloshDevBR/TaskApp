@@ -34,7 +34,19 @@ class TaskRepository(context: Context) : BaseRepository(context) {
 
     fun create(task: TaskModel, listener: APIListener<Boolean>) {
         val call = remote.create(
-            0,
+            task.id,
+            task.priorityId,
+            task.description,
+            task.dueDate,
+            task.complete
+        )
+
+        executeCall(call, listener)
+    }
+
+    fun update(task: TaskModel, listener: APIListener<Boolean>) {
+        val call = remote.update(
+            task.id,
             task.priorityId,
             task.description,
             task.dueDate,
@@ -58,6 +70,12 @@ class TaskRepository(context: Context) : BaseRepository(context) {
 
     fun delete(id: Int, listener: APIListener<Boolean>) {
         val call = remote.remove(id)
+
+        executeCall(call, listener)
+    }
+
+    fun load(id: Int, listener: APIListener<TaskModel>) {
+        val call = remote.load(id)
 
         executeCall(call, listener)
     }

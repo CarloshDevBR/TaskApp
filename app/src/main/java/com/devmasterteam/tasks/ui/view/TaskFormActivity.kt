@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.devmasterteam.tasks.R
 import com.devmasterteam.tasks.databinding.ActivityTaskFormBinding
+import com.devmasterteam.tasks.service.constants.TaskConstants
 import com.devmasterteam.tasks.service.model.PriorityModel
 import com.devmasterteam.tasks.service.model.TaskModel
 import com.devmasterteam.tasks.viewmodel.TaskFormViewModel
@@ -23,6 +24,7 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
     private lateinit var binding: ActivityTaskFormBinding
     private val dateFormat: SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
     private var listPriority: List<PriorityModel> = mutableListOf()
+    private var taskId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +36,10 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
         binding.buttonDate.setOnClickListener(this)
 
         viewModel.loadPriorities()
+
+        loadDataFromActivity()
+
+        changesUi()
 
         observer()
 
@@ -69,7 +75,7 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
 
     private fun handleSave() {
         val task = TaskModel().apply {
-            this.id = 0
+            this.id = taskId
             this.description = binding.editDescription.text.toString()
             this.complete = binding.checkComplete.isChecked
             this.dueDate = binding.buttonDate.text.toString()
@@ -78,7 +84,10 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
             this.priorityId = listPriority[index].id
         }
 
-        viewModel.save(task)
+        when {
+            taskId == 0 -> viewModel.save(task)
+            else -> viewModel.update(task)
+        }
     }
 
     private fun observer() {
@@ -107,6 +116,52 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
             } else {
                 toast(it.message())
             }
+        }
+
+        viewModel.taskUpdate.observe(this) {
+            if (it.status()) {
+                toast("Salvo")
+                finish()
+            } else {
+                toast(it.message())
+            }
+        }
+
+        viewModel.task.observe(this) {
+            setValues(it)
+        }
+
+        viewModel.taskLoad.observe(this) {
+            if (!it.status()) {
+                toast(it.message())
+            }
+        }
+    }
+
+    private fun getIndex(priorityId: Int): Int = listPriority.indexOfFirst { it.id == priorityId }
+
+    private fun setValues(task: TaskModel) {
+        val date = SimpleDateFormat("yyyy-MM-dd").parse(task.dueDate)
+
+        binding.editDescription.setText(task.description)
+        binding.spinnerPriority.setSelection(getIndex(task.priorityId))
+        binding.checkComplete.isChecked = task.complete
+        binding.buttonDate.text = SimpleDateFormat("dd/MM/yyyy").format(date)
+    }
+
+    private fun changesUi() {
+        if (taskId > 0) {
+            binding.buttonSave.text = "Salvar"
+        }
+    }
+
+    private fun loadDataFromActivity() {
+        val bundle = intent.extras
+
+        if (bundle != null) {
+            taskId= bundle.getInt(TaskConstants.BUNDLE.TASKID)
+
+            viewModel.load(taskId)
         }
     }
 
