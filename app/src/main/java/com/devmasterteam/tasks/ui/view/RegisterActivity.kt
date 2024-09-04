@@ -27,6 +27,8 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         observer()
 
         setContentView(binding.root)
+
+        supportActionBar?.hide()
     }
 
     override fun onClick(v: View) {

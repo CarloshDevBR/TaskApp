@@ -22,6 +22,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
         setContentView(binding.root)
 
+        supportActionBar?.hide()
+
         binding.buttonLogin.setOnClickListener(this)
         binding.textRegister.setOnClickListener(this)
 

@@ -4,25 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/shape_background"
     android:padding="16dp"
     tools:context=".ui.view.LoginActivity">
 
-    <EditText
-        android:id="@+id/edit_email"
-        android:layout_width="0dp"
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:hint="@string/email"
-        android:inputType="textEmailAddress"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_logotipo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
+        android:id="@+id/edit_email"
+        style="@style/EditDefault"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:drawableStart="@drawable/ic_mail"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logo" />
+
+    <EditText
         android:id="@+id/edit_password"
+        style="@style/EditDefault"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:drawableStart="@drawable/ic_lock"
         android:hint="@string/senha"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,6 +46,7 @@
 
     <Button
         android:id="@+id/button_login"
+        style="@style/DefaultButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -45,6 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/nao_tem_uma_conta"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/text_register"
         app:layout_constraintHorizontal_chainStyle="packed"
@@ -57,6 +74,7 @@
         android:layout_marginStart="8dp"
         android:layout_toEndOf="@id/text_new_account"
         android:text="@string/cadastre_se"
+        android:textColor="@color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -44,6 +44,8 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
         observer()
 
         setContentView(binding.root)
+
+        supportActionBar?.hide()
     }
 
     override fun onClick(v: View) {
@@ -159,7 +161,7 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
         val bundle = intent.extras
 
         if (bundle != null) {
-            taskId= bundle.getInt(TaskConstants.BUNDLE.TASKID)
+            taskId = bundle.getInt(TaskConstants.BUNDLE.TASKID)
 
             viewModel.load(taskId)
         }
