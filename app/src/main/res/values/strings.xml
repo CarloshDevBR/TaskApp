@@ -32,5 +32,7 @@
     <string name="expiradas">Expiradas</string>
     <string name="todas_tarefas">Tarefas</string>
     <string name="proximos_7_dias">Próximos 7 dias</string>
+    <string name="logout_message">Deseja mesmo sair?</string>
+    <string name="logout_title">Logout</string>
 
 </resources>

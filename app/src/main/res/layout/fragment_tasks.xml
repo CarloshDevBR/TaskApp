@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.AllTasksFragment">
+    tools:context=".ui.fragment.TasksFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_all_tasks"
+        android:id="@+id/recycler_tasks"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -9,26 +9,29 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.devmasterteam.tasks.databinding.FragmentAllTasksBinding
+import com.devmasterteam.tasks.databinding.FragmentTasksBinding
 import com.devmasterteam.tasks.service.constants.TaskConstants
 import com.devmasterteam.tasks.service.listener.TaskListener
 import com.devmasterteam.tasks.ui.adapter.TaskAdapter
 import com.devmasterteam.tasks.ui.view.TaskFormActivity
 import com.devmasterteam.tasks.viewmodel.TaskListViewModel
 
-class AllTasksFragment : Fragment() {
+class TasksFragment : Fragment() {
     private lateinit var viewModel: TaskListViewModel
-    private var _binding: FragmentAllTasksBinding? = null
+    private var _binding: FragmentTasksBinding? = null
     private val binding get() = _binding!!
     private val adapter = TaskAdapter()
+    private var taskFilter = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, b: Bundle?): View {
         viewModel = ViewModelProvider(this).get(TaskListViewModel::class.java)
-        _binding = FragmentAllTasksBinding.inflate(inflater, container, false)
+        _binding = FragmentTasksBinding.inflate(inflater, container, false)
 
-        binding.recyclerAllTasks.layoutManager = LinearLayoutManager(context)
+        binding.recyclerTasks.layoutManager = LinearLayoutManager(context)
 
-        binding.recyclerAllTasks.adapter = adapter
+        binding.recyclerTasks.adapter = adapter
+
+        taskFilter = requireArguments().getInt(TaskConstants.BUNDLE.TASKFILTER, 0)
 
         val listener = object : TaskListener {
             override fun onListClick(id: Int) {
@@ -44,15 +47,15 @@ class AllTasksFragment : Fragment() {
             }
 
             override fun onDeleteClick(id: Int) {
-                viewModel.delete(id)
+                viewModel.delete(id, taskFilter)
             }
 
             override fun onCompleteClick(id: Int) {
-                viewModel.complete(id)
+                viewModel.complete(id, taskFilter)
             }
 
             override fun onUndoClick(id: Int) {
-                viewModel.undo(id)
+                viewModel.undo(id, taskFilter)
             }
         }
 
@@ -66,7 +69,7 @@ class AllTasksFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        viewModel.list()
+        viewModel.list(taskFilter)
     }
 
     override fun onDestroyView() {

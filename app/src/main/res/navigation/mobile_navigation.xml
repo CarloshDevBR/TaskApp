@@ -7,20 +7,35 @@
 
     <fragment
         android:id="@+id/nav_all_tasks"
-        android:name="com.devmasterteam.tasks.ui.fragment.AllTasksFragment"
+        android:name="com.devmasterteam.tasks.ui.fragment.TasksFragment"
         android:label="@string/todas_tarefas"
-        tools:layout="@layout/fragment_all_tasks" />
+        tools:layout="@layout/fragment_tasks" >
+        <argument
+            android:name="taskfilter"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_next_tasks"
-        android:name="com.devmasterteam.tasks.ui.fragment.NextTasksFragment"
+        android:name="com.devmasterteam.tasks.ui.fragment.TasksFragment"
         android:label="@string/proximos_7_dias"
-        tools:layout="@layout/fragment_next_tasks" />
+        tools:layout="@layout/fragment_tasks" >
+        <argument
+            android:name="taskfilter"
+            app:argType="integer"
+            android:defaultValue="1" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_expired"
-        android:name="com.devmasterteam.tasks.ui.fragment.ExpiredTasksFragment"
+        android:name="com.devmasterteam.tasks.ui.fragment.TasksFragment"
         android:label="@string/expiradas"
-        tools:layout="@layout/fragment_expired_tasks" />
+        tools:layout="@layout/fragment_tasks" >
+        <argument
+            android:name="taskfilter"
+            app:argType="integer"
+            android:defaultValue="2" />
+    </fragment>
 
 </navigation>

@@ -11,7 +11,6 @@ import com.devmasterteam.tasks.databinding.ActivityLoginBinding
 import com.devmasterteam.tasks.viewmodel.LoginViewModel
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
-
     private lateinit var viewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
 

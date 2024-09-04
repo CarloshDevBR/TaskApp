@@ -1,5 +1,6 @@
 package com.devmasterteam.tasks.ui.view
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.navigation.NavigationView
@@ -10,19 +11,25 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.ui.NavigationUI
 import com.devmasterteam.tasks.R
 import com.devmasterteam.tasks.databinding.ActivityMainBinding
+import com.devmasterteam.tasks.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         setSupportActionBar(binding.appBarMain.toolbar)
 
@@ -35,10 +42,6 @@ class MainActivity : AppCompatActivity() {
 
         // Observadores
         observe()
-    }
-
-    override fun onResume() {
-        super.onResume()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -55,6 +58,32 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        navView.setNavigationItemSelectedListener {
+            if (it.itemId == R.id.nav_logout) {
+                AlertDialog.Builder(this).setTitle(R.string.logout_title)
+                    .setMessage(R.string.logout_message)
+                    .setPositiveButton(R.string.sim) { dialog, which ->
+                        viewModel.logout()
+
+                        startActivity(
+                            Intent(
+                                this,
+                                LoginActivity::class.java
+                            )
+                        )
+
+                        finish()
+                    }
+                    .setNeutralButton(R.string.cancelar, null)
+                    .show()
+            } else {
+                NavigationUI.onNavDestinationSelected(it, navController)
+                drawerLayout.closeDrawer(GravityCompat.START)
+            }
+
+            true
+        }
     }
 
     private fun observe() {
