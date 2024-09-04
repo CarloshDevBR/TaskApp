@@ -3,6 +3,7 @@ package com.devmasterteam.tasks.ui.view
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.widget.TextView
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -13,6 +14,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
 import androidx.navigation.ui.NavigationUI
 import com.devmasterteam.tasks.R
 import com.devmasterteam.tasks.databinding.ActivityMainBinding
@@ -37,10 +39,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(applicationContext, TaskFormActivity::class.java))
         }
 
-        // Navegação
         setupNavigation()
 
-        // Observadores
+        viewModel.loadUserName()
+
         observe()
     }
 
@@ -59,6 +61,14 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+        eventsNavigation(navView, navController, drawerLayout)
+    }
+
+    private fun eventsNavigation(
+        navView: NavigationView,
+        navController: NavController,
+        drawerLayout: DrawerLayout
+    ) {
         navView.setNavigationItemSelectedListener {
             if (it.itemId == R.id.nav_logout) {
                 AlertDialog.Builder(this).setTitle(R.string.logout_title)
@@ -87,6 +97,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observe() {
+        viewModel.userName.observe(this) {
+            if (it != "") {
+                val header = binding.navView.getHeaderView(0)
 
+                header.findViewById<TextView>(R.id.text_name).text = it
+            }
+        }
     }
 }

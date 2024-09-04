@@ -31,8 +31,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View) {
-        if (v.id == R.id.button_login) {
-            handleLogin()
+        when {
+            (v.id == R.id.button_login) -> handleLogin()
+            (v.id == R.id.text_register) -> handleRegister()
         }
     }
 
@@ -59,5 +60,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         val password = binding.editPassword.text.toString()
 
         viewModel.doLogin(email, password)
+    }
+
+    private fun handleRegister() {
+        startActivity(Intent(this, RegisterActivity::class.java))
     }
 }

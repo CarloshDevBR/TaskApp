@@ -14,4 +14,15 @@ class PersonRepository(context: Context) : BaseRepository(context) {
 
         executeCall(call, listener)
     }
+
+    fun register(
+        name: String,
+        email: String,
+        password: String,
+        listener: APIListener<PersonModel>
+    ) {
+        val call = remote.create(name, email, password)
+
+        executeCall(call, listener)
+    }
 }
