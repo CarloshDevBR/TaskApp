@@ -37,4 +37,13 @@
     <string name="default_name">NOME USUÁRIO</string>
     <string name="date">Data limite</string>
 
+    .setTitle("Tasks")
+    .setSubtitle("Desbloqueie seu celular")
+    .setDescription("Toque no sensor de impressão digital")
+    .setNegativeButtonText("USAR SENHA")
+
+    <string name="title_bio">Tasks</string>
+    <string name="sub_title_bio">Desbloqueie seu celular</string>
+    <string name="description_bio">Toque no sensor de impressão digital</string>
+    <string name="negative_button_bio">USAR SENHA</string>
 </resources>

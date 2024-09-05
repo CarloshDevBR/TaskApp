@@ -1,6 +1,11 @@
 package com.devmasterteam.tasks.service.constants
 
 class TaskConstants private constructor() {
+    object ACCESS_USER {
+        const val USER_EMAIL = "useremail"
+        const val USER_PASSWORD = "userpassword"
+    }
+
     object SHARED {
         const val TOKEN_KEY = "tokenkey"
         const val PERSON_KEY = "personkey"
